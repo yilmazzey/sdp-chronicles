@@ -18,10 +18,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Large data files (optional - uncomment if you want to exclude)
-# *.pkl
-# *.csv
-# *.json
+# Large data files (excluded due to GitHub 100MB limit)
+*.pkl
+*.csv
+!DDxPlus Dataset/release_conditions.json
+!DDxPlus Dataset/release_evidences.json
+!DDxPlus Dataset/README.md
 
 # IDE files
 .vscode/
