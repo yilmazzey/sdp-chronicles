@@ -18,12 +18,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Large data files (excluded due to GitHub 100MB limit)
-*.pkl
-*.csv
-!DDxPlus Dataset/release_conditions.json
-!DDxPlus Dataset/release_evidences.json
-!DDxPlus Dataset/README.md
+# Large data files are now tracked with Git LFS
+# *.pkl and *.csv files will be stored using Git LFS
 
 # IDE files
 .vscode/
