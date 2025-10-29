@@ -1,0 +1,82 @@
+@startuml
+' ===== Layout & Style =====
+skinparam componentStyle rectangle
+skinparam shadowing true
+skinparam linetype ortho
+skinparam dpi 200
+
+title <size:24><b>Differential Diagnosis System Architecture</b></size>
+
+' ===== LEFT SIDE: Symptom Intake =====
+package "1. Symptom Intake" <<FrontEnd>> {
+  component "<b>LLM Chatbot</b>\nUser dialogue & clarification" as LLM
+  component "<b>NLP Extractor</b>\nSymptom extraction" as NLP
+  component "<b>Safety Filter</b>\nValidation" as Safety
+}
+
+' ===== MIDDLE: Data & Features =====
+package "2. Feature Store" <<Data>> {
+  component "<b>Feature Store</b>\nStructured vectors" as FeatureStore
+}
+
+' ===== MIDDLE-RIGHT: Inference =====
+package "3. Inference" <<Inference>> {
+  component "<b>Prediction Engine</b>\nModel inference" as Predict
+  component "<b>Explainability</b>\nSHAP, probabilities" as Explain
+}
+
+' ===== RIGHT SIDE: Output =====
+package "4. Diagnosis Output" <<Output>> {
+  component "<b>Triage Engine</b>\nRanked diagnosis" as Triage
+}
+
+' ===== BOTTOM: Training Support (hidden in main flow) =====
+package "Model Support" {
+  component "<b>Model Registry</b>\nBest models" as Registry
+  component "<b>Training Pipeline</b>\nNN, XGBoost, Ensemble" as Trainer
+  component "<b>Evolutionary Algo</b>\nOptimization" as EA
+  component "<b>Raw Dataset</b>\n>1.3M cases" as RawData
+  component "<b>Preprocessing</b>\nFeature engineering" as FE
+}
+
+' ===== MAIN PIPELINE FLOW (LEFT TO RIGHT) =====
+LLM --> NLP : 1. Patient text
+NLP --> Safety : 2. Extract symptoms
+Safety --> LLM : 3. Confirm
+LLM --> FeatureStore : 4. Query vector
+FeatureStore --> Predict : 5. Symptom vector
+Predict --> Explain : 6. Probabilities
+Explain --> Triage : 7. Feature weights
+Triage --> LLM : 8. Final diagnosis
+
+' Model loading
+Registry --> Predict : Load model
+
+' ===== TRAINING FLOW (Supporting, bottom) =====
+RawData --> FE : Prepare
+FE --> FeatureStore
+Trainer --> Registry : Train & store
+EA --> Trainer : Optimize
+
+' ===== VISUAL NOTES =====
+note right of LLM
+  <b>Symptom Intake</b>
+  • Interactive dialogue
+  • Symptom extraction
+  • Confirmation with user
+end note
+
+note right of Triage
+  <b>Diagnosis Output</b>
+  • Ranked differential diagnosis
+  • Risk assessment
+  • Next steps recommendation
+end note
+
+note bottom of FeatureStore
+  <b>Feature Store</b>
+  Processes structured symptom vectors
+  from >1.3M training cases
+end note
+
+@enduml
