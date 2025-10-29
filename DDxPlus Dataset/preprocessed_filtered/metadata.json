@@ -1,0 +1,20 @@
+{
+  "total_features": 590,
+  "evidence_features": 492,
+  "initial_features": 96,
+  "dataset_shapes": {
+    "train": [
+      936888,
+      594
+    ],
+    "validation": [
+      129258,
+      594
+    ],
+    "test": [
+      142184,
+      594
+    ]
+  },
+  "icd10_removed": 24
+}
